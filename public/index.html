@@ -5,7 +5,7 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
         $(document).ready(function(){
-        	var Socket = new WebSocket('ws://localhost:8082');
+        	var Socket = new WebSocket('ws://localhost:443');
 	        Socket.onopen = (ws)=>{
 	        	setTimeout(function(){Socket.send('Test!');},1000);
 	        };
