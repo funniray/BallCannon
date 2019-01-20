@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
-    "raspi-serial": "^5.1.0"
+    "raspi-serial": "^5.1.0",
+    "ws": "^6.1.2"
   }
 }

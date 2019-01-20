@@ -3,12 +3,21 @@
 <head>
     <title>Test!</title>
     <script>
-        //Do stuff
+        var Socket = new WebSocket('ws://localhost:8081');
+        Socket.onopen = (ws)=>{
+        	setTimeout(function(){Socket.send('Test!');},1000);
+        };
+        Socket.onmessage = (msg)=>{
+        	console.log(msg);
+        	document.getElementById('msgs').innerHTML += `
+`+msg.data;
+        };
     </script>
 </head>
 <body>
 <h3>
     Hello World!
 </h3>
+<p id="msgs"></p>
 </body>
 </html>
