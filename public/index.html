@@ -14,11 +14,6 @@
 	        	$('div[name="msgs"]').html($('div[name="msgs"]').html() + `<br />`+msg.data);
 	        };
 
-	        /*var textInput = $('textDisplay');
-	        var add = $('addBtn');
-	        var sub = $('subBtn');
-	        var radials = $("input[name='size']:checked");*/
-
 	        $("input[type='button'][name='add']").click(function() {
 	        	console.log('add')
 	        	var textDisplay = $("input[type='text'][name='textDisplay']");
@@ -39,6 +34,7 @@
 	        		}
 	        	}
 	        });
+
 	        $("input[type='button'][name='sub']").click(function() {
 	        	console.log('subtract')
 	        	var textDisplay = $("input[type='text'][name='textDisplay']");
@@ -59,7 +55,20 @@
 	        		}
 	        	}
 	        });
-        })
+
+	        $("input[type='text'][name='textDisplay']").on('input paste',function() {
+	        	console.log('textbox updated manually');
+	        	var textDisplay = $("input[type='text'][name='textDisplay']");
+	        	if (textDisplay.val() < 1) {
+	        		textDisplay.val(1);
+	        	} else if (textDisplay.val() > 90) {
+	        		textDisplay.val(90);
+	        	} else {
+        			var currentValue = parseFloat(textDisplay.val());
+        			Socket.send(currentValue);
+	        	}
+	        });
+        });
         
     </script>
 </head>
