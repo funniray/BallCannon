@@ -2,22 +2,95 @@
 <html>
 <head>
     <title>Test!</title>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
-        var Socket = new WebSocket('ws://localhost:8081');
-        Socket.onopen = (ws)=>{
-        	setTimeout(function(){Socket.send('Test!');},1000);
-        };
-        Socket.onmessage = (msg)=>{
-        	console.log(msg);
-        	document.getElementById('msgs').innerHTML += `
-`+msg.data;
-        };
+        $(document).ready(function(){
+        	var Socket = new WebSocket('ws://localhost:8082');
+	        Socket.onopen = (ws)=>{
+	        	setTimeout(function(){Socket.send('Test!');},1000);
+	        };
+	        Socket.onmessage = (msg)=>{
+	        	console.log(msg);
+	        	$('div[name="msgs"]').html($('div[name="msgs"]').html() + `<br />`+msg.data);
+	        };
+
+	        /*var textInput = $('textDisplay');
+	        var add = $('addBtn');
+	        var sub = $('subBtn');
+	        var radials = $("input[name='size']:checked");*/
+
+	        $("input[type='button'][name='add']").click(function() {
+	        	console.log('add')
+	        	var textDisplay = $("input[type='text'][name='textDisplay']");
+	        	if (textDisplay.val() < 1) {
+	        		textDisplay.val(1);
+	        	} else if (textDisplay.val() > 90) {
+	        		textDisplay.val(90);
+	        	} else {
+	        		var radioValue = parseFloat($("input[name='size']:checked").val());
+	        		if (radioValue) {
+	        			var currentValue = parseFloat(textDisplay.val());
+	        			var newValue = currentValue + radioValue;
+	        			console.log(newValue);
+	        			if (newValue <= 90 && newValue >= 1) {
+	        				textDisplay.val(newValue.toPrecision(4).toString());
+	        				Socket.send(newValue.toPrecision(4));
+	        			}
+	        		}
+	        	}
+	        });
+	        $("input[type='button'][name='sub']").click(function() {
+	        	console.log('subtract')
+	        	var textDisplay = $("input[type='text'][name='textDisplay']");
+	        	if (textDisplay.val() < 1) {
+	        		textDisplay.val(1);
+	        	} else if (textDisplay.val() > 90) {
+	        		textDisplay.val(90);
+	        	} else {
+	        		var radioValue = parseFloat($("input[name='size']:checked").val());
+	        		if (radioValue) {
+	        			var currentValue = parseFloat(textDisplay.val());
+	        			var newValue = currentValue - radioValue;
+	        			console.log(newValue);
+	        			if (newValue <= 90 && newValue >= 1) {
+	        				textDisplay.val(newValue.toPrecision(4).toString());
+	        				Socket.send(newValue);
+	        			}
+	        		}
+	        	}
+	        });
+        })
+        
     </script>
 </head>
 <body>
-<h3>
-    Hello World!
-</h3>
-<p id="msgs"></p>
+	<h3>
+	    Hello World!
+	</h3>
+	
+	<input type='text' name='textDisplay' value=1> 
+
+	<input type='button' name='add' value='+'></button>
+	<input type='button' name='sub' value='-'></button>
+
+	<p>
+		AMOUNT TO ADD/SUBTRACT:
+		<label>
+			<br />
+			0.1
+			<input type='radio' name='size' value=0.1>
+		</label>
+		<label>
+			<br />
+			1 
+			<input type='radio' name='size' value=1 checked=true>
+		</label>
+		<label>
+			<br />
+			10
+			<input type='radio' name='size' value=10>
+		</label>
+	</p>
+	<div name="msgs"></div>
 </body>
 </html>

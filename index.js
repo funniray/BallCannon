@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const port = 8080;
-const wsPort = 8081;
+const port = 8081;
+const wsPort = 8082;
 
 const WebSocket = require('ws');
 
